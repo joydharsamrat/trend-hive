@@ -1,7 +1,11 @@
+import Link from "next/link";
+import ScrollEffectWrapper from "./ScrollEffectWrapper";
+import Image from "next/image";
+
 const NavBar = () => {
   return (
-    <div className="bg-primary-900">
-      <div className="navbar   text-white max-w-7xl mx-auto">
+    <ScrollEffectWrapper>
+      <div className="navbar  text-white max-w-7xl mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -43,7 +47,18 @@ const NavBar = () => {
               </li>
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">daisyUI</a>
+          <Link
+            href="/"
+            className="flex items-center justify-center gap-1 text-3xl text-white font-bold "
+          >
+            <Image
+              width={40}
+              height={40}
+              src="/logo.png"
+              alt="tend hive logo"
+            />
+            <p>TrendHive</p>
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
@@ -69,10 +84,10 @@ const NavBar = () => {
           </ul>
         </div>
         <div className="navbar-end">
-          <a className="btn bg-secondary-700 border-none">Button</a>
+          <a className=" btn-outline-neutral">Login</a>
         </div>
       </div>
-    </div>
+    </ScrollEffectWrapper>
   );
 };
 
