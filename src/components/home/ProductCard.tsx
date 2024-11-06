@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const ProductCard = ({ product }: { product: TProduct }) => {
   return (
-    <Link href="">
+    <Link href={`/product/${product._id}`}>
       <div className="card card-compact h-full bg-white  shadow-sm hover:shadow-xl hover:scale-105 transition-all duration-200 ">
         <figure className="relative  w-full aspect-square">
           <Image fill src={product.image} alt={product.name} />
