@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "@/components/shared/NavBar";
 import Footer from "@/components/shared/Footer";
 import "animate.css";
+import Providers from "@/lib/Providers";
 
 const poppins = Poppins({
   weight: "400",
@@ -23,12 +24,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${poppins.className}  antialiased bg-background-100`}>
-        <NavBar />
-        <div className="min-h-screen">{children}</div>
-        <Footer />
-      </body>
-    </html>
+    <Providers>
+      <html lang="en">
+        <body className={`${poppins.className}  antialiased bg-background-100`}>
+          <NavBar />
+          <div className="min-h-screen">{children}</div>
+          <Footer />
+        </body>
+      </html>
+    </Providers>
   );
 }
