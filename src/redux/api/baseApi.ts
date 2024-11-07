@@ -5,7 +5,8 @@ export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
     baseUrl: envConfig.baseApi,
+    credentials: "include",
   }),
   endpoints: () => ({}),
-  tagTypes: ["products"],
+  tagTypes: ["products", "cart"],
 });
