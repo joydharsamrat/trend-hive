@@ -1,8 +1,18 @@
+"use client";
+
 import Link from "next/link";
 import ScrollEffectWrapper from "./ScrollEffectWrapper";
 import Image from "next/image";
+import { logout } from "@/actions/registerUser";
+import { useUser } from "@/context/userProvider";
 
 const NavBar = () => {
+  const { user, setIsLoading: userLoading } = useUser();
+  const handleLogout = () => {
+    logout();
+    userLoading(true);
+  };
+
   return (
     <ScrollEffectWrapper>
       <div className="navbar  text-white max-w-7xl mx-auto">
@@ -83,8 +93,16 @@ const NavBar = () => {
             </li>
           </ul>
         </div>
-        <div className="navbar-end">
-          <a className=" btn-outline-neutral">Login</a>
+        <div className="navbar-end gap-2">
+          {!user ? (
+            <Link href="/login" className=" btn-outline-neutral">
+              Login
+            </Link>
+          ) : (
+            <button onClick={handleLogout} className=" btn-secondary">
+              Logout
+            </button>
+          )}
         </div>
       </div>
     </ScrollEffectWrapper>

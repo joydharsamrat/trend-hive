@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { ReactNode } from "react";
@@ -12,13 +13,18 @@ type TFormProps = {
   children: ReactNode;
   defaultValue?: string;
   onsubmit: SubmitHandler<FieldValues>;
+  resolver?: any;
 };
 
-const THForm = ({ children, defaultValue, onsubmit }: TFormProps) => {
+const THForm = ({ children, defaultValue, onsubmit, resolver }: TFormProps) => {
   const formConfig: Record<string, unknown> = {};
 
   if (defaultValue) {
     formConfig["defaultValue"] = defaultValue;
+  }
+
+  if (resolver) {
+    formConfig["resolver"] = resolver;
   }
   const method = useForm(formConfig);
 

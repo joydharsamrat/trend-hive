@@ -1,13 +1,28 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { registerUser } from "@/actions/registerUser";
 import THForm from "@/components/form/THForm";
 import THInput from "@/components/form/THInput";
+import { registerSchema } from "@/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { FieldValues } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function Register() {
-  const onSubmit = (data: FieldValues) => {
-    console.log(data);
+  const onSubmit = async (data: FieldValues) => {
+    const loadingToast = toast.loading("loading...");
+    try {
+      await registerUser(data);
+
+      toast.success("Sign up successful!", { id: loadingToast });
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Sign up failed. Please try again.", {
+        id: loadingToast,
+      });
+      console.log(error);
+    }
   };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient">
@@ -18,7 +33,7 @@ export default function Register() {
           </h2>
           <p className="text-center text-xs mt-2">Welcome to TrendHive</p>
         </div>
-        <THForm onsubmit={onSubmit}>
+        <THForm onsubmit={onSubmit} resolver={zodResolver(registerSchema)}>
           <THInput label="Name" name="name" required={true} type="text" />
           <THInput label="Email" name="email" required={true} type="email" />
           <THInput

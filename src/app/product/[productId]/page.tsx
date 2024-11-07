@@ -1,16 +1,5 @@
 import ProductDetailsBanner from "@/components/product/ProductDetailsBanner";
-import { TProduct } from "@/types";
 import Image from "next/image";
-
-// static params
-export const generateStaticParams = async () => {
-  const res = await fetch("http://localhost:5000/api/v1/products");
-  const products = await res.json();
-
-  return products?.data.slice(0, 5).map((product: TProduct) => ({
-    productId: product._id,
-  }));
-};
 
 const ProductDetails = async ({
   params,

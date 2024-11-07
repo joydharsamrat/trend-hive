@@ -1,14 +1,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { loginUser } from "@/actions/registerUser";
 import THForm from "@/components/form/THForm";
 import THInput from "@/components/form/THInput";
+import { useUser } from "@/context/userProvider";
+import { loginSchema } from "@/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FieldValues } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function Login() {
-  const onSubmit = (data: FieldValues) => {
-    console.log(data);
+  const { setIsLoading } = useUser();
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const redirect = searchParams.get("redirect");
+
+  const onSubmit = async (data: FieldValues) => {
+    const loadingToast = toast.loading("loading...");
+    try {
+      await loginUser(data);
+      setIsLoading(true);
+      toast.success("Login successful!", { id: loadingToast });
+      if (redirect) {
+        router.push(redirect);
+      } else {
+        router.push("/");
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Login failed. Please try again.", {
+        id: loadingToast,
+      });
+      console.log(error);
+    }
   };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient">
@@ -19,7 +47,7 @@ export default function Login() {
           </h2>
           <p className="text-center text-xs mt-2">Welcome to TrendHive</p>
         </div>
-        <THForm onsubmit={onSubmit}>
+        <THForm onsubmit={onSubmit} resolver={zodResolver(loginSchema)}>
           <THInput label="Email" name="email" required={true} type="email" />
           <THInput
             label="Password"

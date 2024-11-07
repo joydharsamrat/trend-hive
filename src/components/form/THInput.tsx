@@ -13,7 +13,10 @@ const THInput = ({
   name: string;
   required: boolean;
 }) => {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <div>
@@ -24,8 +27,15 @@ const THInput = ({
         {...register(name, { required: required })}
         type={type}
         id={name}
-        className="w-full p-3 mt-1 border rounded-lg focus:ring-primary-900 focus:border-primary-900"
+        className={`w-full p-3 mt-1 border rounded-lg ${
+          errors[name] && "border-red-500 focus:ring-red-500"
+        }`}
       />
+      {errors[name] && (
+        <p className="text-xs text-red-500 mt-1">
+          {errors[name]?.message as string}
+        </p>
+      )}
     </div>
   );
 };
