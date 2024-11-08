@@ -32,9 +32,9 @@ const AdminDashboard = ({ children }: { children: ReactNode }) => {
             <Link href="/admin/user-management">User Management</Link>
           </li>
 
-          <li className=" rounded bg-neutral-900 text-white">
+          {/* <li className=" rounded bg-neutral-900 text-white">
             <Link href="/admin/order-management">Order Management</Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

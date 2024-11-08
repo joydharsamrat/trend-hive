@@ -6,14 +6,19 @@ import { TProduct } from "@/types";
 import Image from "next/image";
 import { useState } from "react";
 import Loader from "../shared/Loader";
+import { useRouter } from "next/navigation";
 
 const ProductDetailsCard = ({ product }: { product: TProduct }) => {
   const [quantity, setQuantity] = useState(1); // State to hold quantity
   const [addToCart] = useAddToCartMutation();
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useUser();
+  const router = useRouter();
 
   const handleAddToCart = async () => {
+    if (!user) {
+      router.push("/login");
+    }
     setIsLoading(true);
     try {
       const item = {

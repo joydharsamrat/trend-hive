@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "next/link";
+// import Link from "next/link";
 import Image from "next/image";
 import heroImg from "../../assets/image/hero.png";
 
@@ -15,12 +15,12 @@ const Hero: React.FC = () => {
           <p className="text-lg md:text-xl text-neutral-300 mb-6 animate__animated animate__fadeInLeft ">
             Shop the season’s must-have items
           </p>
-          <Link
+          {/* <Link
             href="/shop"
             className="btn-secondary animate__animated animate__fadeInLeft animate__slower"
           >
             Shop Now
-          </Link>
+          </Link> */}
         </div>
 
         {/* Image Section */}

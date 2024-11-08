@@ -70,11 +70,11 @@ const CartItems = () => {
 
         {/* Cart Items */}
         {cartItems?.data.data.length > 0 ? (
-          <div>
+          <div className="p-10 bg-white rounded">
             {cartItems.data.data.map((item: TCartItem) => (
               <div
                 key={item.product._id}
-                className="flex items-center justify-between border-b py-4"
+                className="flex items-center justify-between border-b py-4 "
               >
                 <div className="flex items-center space-x-4">
                   {/* Product Image */}
