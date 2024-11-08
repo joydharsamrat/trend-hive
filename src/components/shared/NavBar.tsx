@@ -39,7 +39,7 @@ const NavBar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
-              {user?.role === "admin" && (
+              {user?.role === "user" && (
                 <li>
                   <Link href="/user/orders">Orders</Link>
                 </li>
@@ -53,7 +53,7 @@ const NavBar = () => {
           </div>
           <Link
             href="/"
-            className="flex items-center justify-center gap-1 text-3xl text-white font-bold "
+            className="flex items-center justify-center gap-1 text-xl sm:text-3xl text-white font-bold "
           >
             <Image
               width={40}

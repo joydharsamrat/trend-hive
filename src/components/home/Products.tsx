@@ -4,7 +4,7 @@ import ProductCard from "./ProductCard";
 import { useGetAllProductsQuery } from "@/redux/features/products/products.api";
 import { useGetAllCategoriesQuery } from "@/redux/features/categories/category.api";
 import { TCategory, TProduct } from "@/types";
-import Spinner from "../loaders/Spinner";
+import ProductCardSkeleton from "../shared/ProductCardSkeleton";
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,8 +22,7 @@ const Products = () => {
     limit,
   };
 
-  const { data: categories, isLoading: isCategoryLoading } =
-    useGetAllCategoriesQuery(undefined);
+  const { data: categories } = useGetAllCategoriesQuery(undefined);
 
   const { data: products, isLoading } = useGetAllProductsQuery(query);
 
@@ -45,10 +44,6 @@ const Products = () => {
   useEffect(() => {
     setPage(1);
   }, [selectedCategory, sort, searchTerm]);
-
-  if (isCategoryLoading || isLoading) {
-    return <Spinner />;
-  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -92,11 +87,19 @@ const Products = () => {
           <option value="desc">High to Low</option>
         </select>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {products?.data?.map((product: TProduct) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
-      </div>
+      {isLoading ? (
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          {Array.from({ length: 12 }).map((_, index) => (
+            <ProductCardSkeleton key={index} />
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          {products?.data?.map((product: TProduct) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      )}
 
       <div className="flex justify-center gap-2 mt-6">
         <button

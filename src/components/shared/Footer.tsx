@@ -19,9 +19,9 @@ const Footer = () => {
             />
           </Link>
           <p>
-            ACME Industries Ltd.
+            TrendHive Ltd.
             <br />
-            Providing reliable tech since 1992
+            Providing reliable tech since 2024
           </p>
         </aside>
         <nav>
