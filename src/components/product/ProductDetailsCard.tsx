@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useState } from "react";
 import Loader from "../shared/Loader";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const ProductDetailsCard = ({ product }: { product: TProduct }) => {
   const [quantity, setQuantity] = useState(1); // State to hold quantity
@@ -27,8 +28,8 @@ const ProductDetailsCard = ({ product }: { product: TProduct }) => {
         quantity,
       };
 
-      const res = await addToCart(item);
-      console.log(res);
+      await addToCart(item);
+      toast.success("Item added to cart");
     } catch (error) {
       console.log(error);
     } finally {
