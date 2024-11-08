@@ -29,7 +29,7 @@ const CategorySelect = ({
         }`}
       >
         <option value="">Select a category</option>
-        {options.map((category) => (
+        {options?.map((category) => (
           <option key={category._id} value={category._id}>
             {category.title}
           </option>

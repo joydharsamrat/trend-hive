@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TrendHive
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This package includes the client component of A E-commerce web application.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**[LIVE LINK](https://trend-hive-neon.vercel.app/)**
+
+## Features
+
+- Secure sign-up and login using JWT.
+- Admins can create, update, and delete Products.
+- Users can see products and and add to their carts for ordering later.
+- Admins can view and manage all user and make other users admin.
+
+## Technologies Used
+
+- Frontend: Next.js, Typescript, Tailwind css, daisy ui, rtk.query, axios
+- Backend: Node.js, Express.js, Typescript
+- Authentication: JWT (JSON Web Tokens)
+- Database: MongoDB, Mongoose
+- Payment: Aamarpay
+
+## Cloning the Repositories
+
+clone the repository:
+
+```sh
+client: git clone https://github.com/joydharsamrat/trend-hive.git
+server: git clone https://github.com/joydharsamrat/trend-hive-server.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installing Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Navigate to the directory and install the required dependencies using npm.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+client:
+cd trend-hive
+npm install
 
-## Learn More
+server:
+cd trend-hive-server
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Environment Configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Create a .env file in the root directory with the following contents:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+client:
 
-## Deploy on Vercel
+```sh
+NEXT_PUBLIC_BASE_API=YOUR_SERVER_BASE_API
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Server:
+
+```sh
+NODE_ENV=ENVIRONMENT_OF_THE_APP
+PORT=THE_PORT_THIS_APP_WILL_RUN_ON
+DB_URL=YOUR_DATABASE_URL
+BCRYPT_SALT_ROUNDS=SALT_ROUNDS_FOR_BCRYPT
+JWT_ACCESS_TOKEN_SECRET=SECRET_FOR_JWT_ACCESS_TOKEN
+JWT_ACCESS_EXPIRES_IN=ACCESS_TOKEN_EXPIRE_TIME
+JWT_REFRESH_TOKEN_SECRET=SECRET_FOR_JWT_REFRESH_TOKEN
+JWT_REFRESH_EXPIRES_IN=REFRESH_TOKEN_EXPIRE_TIME
+
+```
+
+## Running the Application Locally
+
+Run the development server:
+
+```sh
+Client: npm run dev
+Server: npm run dev
+```

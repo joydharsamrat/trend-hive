@@ -46,7 +46,7 @@ const NavBar = () => {
               )}
               {user?.role === "admin" && (
                 <li>
-                  <Link href="/admin/productManagement">Dashboard</Link>
+                  <Link href="/admin/product-management">Dashboard</Link>
                 </li>
               )}
             </ul>
@@ -66,14 +66,14 @@ const NavBar = () => {
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-            {user?.role === "admin" && (
+            {user?.role === "user" && (
               <li>
                 <Link href="/user/orders">Orders</Link>
               </li>
             )}
             {user?.role === "admin" && (
               <li>
-                <Link href="/admin/productManagement">Dashboard</Link>
+                <Link href="/admin/product-management">Dashboard</Link>
               </li>
             )}
           </ul>

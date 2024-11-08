@@ -85,7 +85,7 @@ const ProductManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product: any) => (
+            {products?.map((product: any) => (
               <tr key={product._id}>
                 <td>
                   <Image
