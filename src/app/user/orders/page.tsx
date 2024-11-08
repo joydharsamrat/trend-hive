@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Loader from "@/components/shared/Loader";
 import { useGetOrdersForUserQuery } from "@/redux/features/order/order.api";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 const Orders = () => {
   const { data, isLoading } = useGetOrdersForUserQuery(undefined);
@@ -30,7 +31,7 @@ const Orders = () => {
               No orders found. Please place an order first.
             </div>
           ) : (
-            orders.map((order) => (
+            orders.map((order: any) => (
               <div
                 key={order._id}
                 className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 animate__animated animate__fadeIn"
@@ -62,7 +63,7 @@ const Orders = () => {
                 <div className="space-y-4">
                   <div>
                     <ul className="list-disc pl-6 space-y-2">
-                      {order.items.map((item) => (
+                      {order.items.map((item: any) => (
                         <li
                           key={item.product._id}
                           className="flex items-center space-x-4 text-gray-700"
