@@ -27,10 +27,6 @@ const Products = () => {
 
   const { data: products, isLoading } = useGetAllProductsQuery(query);
 
-  useEffect(() => {
-    console.log(categories);
-  }, [categories]);
-
   // Debounce logic for searchTerm
   useEffect(() => {
     const handler = setTimeout(() => {

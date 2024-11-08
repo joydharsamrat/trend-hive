@@ -5,6 +5,7 @@ import ScrollEffectWrapper from "./ScrollEffectWrapper";
 import Image from "next/image";
 import { logout } from "@/actions/registerUser";
 import { useUser } from "@/context/userProvider";
+import { FaShoppingCart } from "react-icons/fa";
 
 const NavBar = () => {
   const { user, setIsLoading: userLoading } = useUser();
@@ -15,7 +16,7 @@ const NavBar = () => {
 
   return (
     <ScrollEffectWrapper>
-      <div className="navbar  text-white max-w-7xl mx-auto">
+      <div className="navbar  text-white max-w-7xl mx-auto ">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -99,9 +100,19 @@ const NavBar = () => {
               Login
             </Link>
           ) : (
-            <button onClick={handleLogout} className=" btn-secondary">
-              Logout
-            </button>
+            <div className="flex items-center gap-2">
+              <button onClick={handleLogout} className=" btn-secondary">
+                Logout
+              </button>
+              {user.role === "user" && (
+                <Link
+                  href="/user/cart"
+                  className="rounded-full bg-secondary-700 p-2"
+                >
+                  <FaShoppingCart className="text-lg" />
+                </Link>
+              )}
+            </div>
           )}
         </div>
       </div>

@@ -16,10 +16,10 @@ const ScrollEffectWrapper = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div
-      className={`fixed top-0 left-1/2 transform -translate-x-1/2 w-full z-50 transition-colors duration-300 ${
+      className={` z-50 transition-colors duration-300 ${
         isScrolled
-          ? "bg-black bg-opacity-30 backdrop-blur-sm"
-          : "bg-transparent"
+          ? "bg-black bg-opacity-30 backdrop-blur-sm fixed top-0 left-1/2 transform -translate-x-1/2 w-full"
+          : "bg-neutral-900 "
       }`}
     >
       {children}

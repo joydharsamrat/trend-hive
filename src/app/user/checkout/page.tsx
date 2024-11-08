@@ -51,7 +51,7 @@ const Checkout = () => {
   }
 
   return (
-    <div className="bg-gradient md:p-10">
+    <div className="bg-gradient  py-20">
       <div className="max-w-6xl mx-auto p-8">
         <h1 className="text-3xl font-bold text-white mb-8">Checkout</h1>
 

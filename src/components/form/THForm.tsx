@@ -11,7 +11,7 @@ import {
 
 type TFormProps = {
   children: ReactNode;
-  defaultValue?: string;
+  defaultValue?: any;
   onsubmit: SubmitHandler<FieldValues>;
   resolver?: any;
 };

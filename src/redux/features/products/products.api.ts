@@ -46,6 +46,7 @@ const productApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["products"],
     }),
   }),
 });

@@ -1,5 +1,6 @@
 import ProductDetailsBanner from "@/components/product/ProductDetailsBanner";
 import ProductDetailsCard from "@/components/product/ProductDetailsCard";
+import envConfig from "@/config/envConfig";
 
 const ProductDetails = async ({
   params,
@@ -7,12 +8,9 @@ const ProductDetails = async ({
   params: Promise<{ productId: string }>;
 }) => {
   const { productId } = await params;
-  const res = await fetch(
-    `http://localhost:5000/api/v1/products/${productId}`,
-    {
-      cache: "no-store",
-    }
-  );
+  const res = await fetch(`${envConfig.baseApi}/products/${productId}`, {
+    cache: "no-store",
+  });
 
   const data = await res.json();
   const product = data.data;

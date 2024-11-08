@@ -11,7 +11,15 @@ const productApi = baseApi.injectEndpoints({
         };
       },
     }),
+    getOrdersForUser: builder.query({
+      query: () => {
+        return {
+          url: "order/user",
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
-export const { useCreateOrderMutation } = productApi;
+export const { useCreateOrderMutation, useGetOrdersForUserQuery } = productApi;

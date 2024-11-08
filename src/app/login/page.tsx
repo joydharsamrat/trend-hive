@@ -23,7 +23,10 @@ export default function Login() {
   const onSubmit = async (data: FieldValues) => {
     const loadingToast = toast.loading("loading...");
     try {
-      await loginUser(data);
+      const res = await loginUser(data);
+
+      localStorage.setItem("accessToken", res.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.refreshToken);
       setIsLoading(true);
       toast.success("Login successful!", { id: loadingToast });
       if (redirect) {

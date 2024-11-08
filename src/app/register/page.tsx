@@ -14,7 +14,10 @@ export default function Register() {
   const onSubmit = async (data: FieldValues) => {
     const loadingToast = toast.loading("loading...");
     try {
-      await registerUser(data);
+      const res = await registerUser(data);
+
+      localStorage.setItem("accessToken", res.accessToken);
+      localStorage.setItem("refreshToken", res.refreshToken);
 
       toast.success("Sign up successful!", { id: loadingToast });
     } catch (error: any) {
