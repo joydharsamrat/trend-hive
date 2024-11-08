@@ -6,6 +6,10 @@ This package includes the client component of A E-commerce web application.
 
 **[LIVE LINK](https://trend-hive-neon.vercel.app/)**
 
+### admin email: joydharsamrat@gmail.com
+
+### admin pass: 123456
+
 ## Features
 
 - Secure sign-up and login using JWT.
