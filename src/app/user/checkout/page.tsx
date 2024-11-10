@@ -13,7 +13,7 @@ import { useUser } from "@/context/userProvider";
 import { useCreateOrderMutation } from "@/redux/features/order/order.api";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const Checkout = () => {
   const { user, isLoading } = useUser();
