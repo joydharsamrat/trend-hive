@@ -5,24 +5,30 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import THForm from "@/components/form/THForm";
 import THInput from "@/components/form/THInput";
-import { useEffect } from "react";
 import { TCartItem } from "@/types";
 import { checkOutSchema } from "@/schemas";
 import Loader from "@/components/shared/Loader";
 import { FieldValues } from "react-hook-form";
 import { useUser } from "@/context/userProvider";
 import { useCreateOrderMutation } from "@/redux/features/order/order.api";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const Checkout = () => {
-  const { user } = useUser();
-  const { data: cartItems, isLoading } = useGetItemsByUserQuery(undefined);
+  const { user, isLoading } = useUser();
+  const { data: cartItems, isLoading: isItemsLoading } =
+    useGetItemsByUserQuery(undefined);
   const [createOrder] = useCreateOrderMutation();
-
+  const router = useRouter();
   useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
+    if (!isLoading && !user) {
+      router.push("/login");
+    }
+  }, [isLoading, user, router]);
 
   const handlePayment = async (data: FieldValues) => {
+    const loadingToast = toast.loading("Loading...");
     const orderData = {
       user: user?._id,
       billingInfo: data,
@@ -30,8 +36,12 @@ const Checkout = () => {
     };
     try {
       const res = await createOrder(orderData);
+      if (res.error) {
+        throw res.error;
+      }
 
       if (res?.data?.data?.data?.result) {
+        toast.dismiss(loadingToast);
         window.location.href = res?.data?.data?.data?.payment_url;
       }
       console.log(res);
@@ -46,7 +56,7 @@ const Checkout = () => {
     0
   );
 
-  if (isLoading) {
+  if (isItemsLoading) {
     return <Loader />;
   }
 

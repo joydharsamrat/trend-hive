@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 const ProductDetailsCard = ({ product }: { product: TProduct }) => {
-  const [quantity, setQuantity] = useState(1); // State to hold quantity
+  const [quantity, setQuantity] = useState(1);
   const [addToCart] = useAddToCartMutation();
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useUser();
@@ -28,8 +28,12 @@ const ProductDetailsCard = ({ product }: { product: TProduct }) => {
         quantity,
       };
 
-      await addToCart(item);
+      const res = await addToCart(item);
+      if (res.error) {
+        throw res.error;
+      }
       toast.success("Item added to cart");
+      router.push("/user/cart");
     } catch (error) {
       console.log(error);
     } finally {
@@ -54,7 +58,7 @@ const ProductDetailsCard = ({ product }: { product: TProduct }) => {
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto bg-white rounded-lg p-8 my-8 flex flex-col lg:flex-row items-center lg:items-center animate__animated animate__zoomIn">
+    <div className="w-full max-w-5xl mx-auto bg-white rounded-lg p-8 my-8 flex flex-col lg:flex-row items-center lg:items-center animate__animated animate__fadeIn">
       {/* Product Image */}
       <div className="w-full lg:w-1/2 mb-6 lg:mb-0 lg:mr-8">
         <Image
@@ -87,14 +91,15 @@ const ProductDetailsCard = ({ product }: { product: TProduct }) => {
         <div className="flex items-center mt-4">
           <button
             onClick={handleQuantityDecrease}
-            className="bg-gray-300 text-gray-700 font-bold py-1 px-3 rounded-l hover:bg-gray-400 transition duration-200"
+            className="bg-gray-300 text-gray-700 font-bold py-1 px-3 rounded-l hover:bg-gray-400 transition duration-200 disabled:hover:bg-gray-300"
           >
             -
           </button>
           <span className="mx-3 text-lg">{quantity}</span>
           <button
+            disabled={product.quantity <= quantity}
             onClick={handleQuantityIncrease}
-            className="bg-gray-300 text-gray-700 font-bold py-1 px-3 rounded-r hover:bg-gray-400 transition duration-200"
+            className="bg-gray-300 text-gray-700 font-bold py-1 px-3 rounded-r hover:bg-gray-400 transition duration-200 disabled:hover:bg-gray-300"
           >
             +
           </button>
@@ -103,8 +108,9 @@ const ProductDetailsCard = ({ product }: { product: TProduct }) => {
         {/* Add to Cart Button */}
         <div className="mt-8 text-center animate__animated animate__fadeInUp">
           <button
+            disabled={product.quantity === 0}
             onClick={handleAddToCart}
-            className="bg-primary-700 text-white font-semibold py-2 px-6 rounded-md hover:bg-primary-500 transition duration-300"
+            className="bg-primary-700 text-white font-semibold py-2 px-6 rounded-md hover:bg-primary-500 transition duration-300 disabled:bg-neutral-500"
           >
             Add to Cart
           </button>

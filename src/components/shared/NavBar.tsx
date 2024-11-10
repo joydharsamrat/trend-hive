@@ -52,7 +52,9 @@ const NavBar = () => {
                   )}
                   {user?.role === "admin" && (
                     <li>
-                      <Link href="/admin/product-management">Dashboard</Link>
+                      <Link href="/admin/product-management/product">
+                        Dashboard
+                      </Link>
                     </li>
                   )}
                 </ul>
@@ -81,7 +83,7 @@ const NavBar = () => {
             )}
             {user?.role === "admin" && (
               <li>
-                <Link href="/admin/product-management">Dashboard</Link>
+                <Link href="/admin/product-management/product">Dashboard</Link>
               </li>
             )}
           </ul>

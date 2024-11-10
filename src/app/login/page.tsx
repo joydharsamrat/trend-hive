@@ -24,7 +24,9 @@ export default function Login() {
     const loadingToast = toast.loading("loading...");
     try {
       const res = await loginUser(data);
-
+      if (res.error) {
+        throw res.error;
+      }
       localStorage.setItem("accessToken", res.data.accessToken);
       localStorage.setItem("refreshToken", res.data.refreshToken);
       setIsLoading(true);

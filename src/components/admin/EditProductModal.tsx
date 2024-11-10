@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
 import DescriptionInput from "./DescriptionInput";
 import CategorySelect from "./CategorySelect";
 import { useGetAllCategoriesQuery } from "@/redux/features/categories/category.api";
@@ -22,7 +21,10 @@ const EditProductModal = ({
     quantity: number;
     description: string;
     image: string;
-    category: string;
+    category: {
+      title: string;
+      _id: string;
+    };
   };
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
@@ -39,7 +41,13 @@ const EditProductModal = ({
     };
 
     try {
-      await updateProduct({ id: product._id, data: updatedProductData });
+      const res = await updateProduct({
+        id: product._id,
+        data: updatedProductData,
+      });
+      if (res.error) {
+        throw res.error;
+      }
       setIsOpen(false);
       toast.success("Product updated successfully!", { id: loadingToast });
     } catch (error: any) {
@@ -65,7 +73,17 @@ const EditProductModal = ({
           </form>
           <h3 className="text-lg font-semibold mb-4">Edit Product</h3>
 
-          <THForm onsubmit={handleUpdateProduct} defaultValue={product}>
+          <THForm
+            onsubmit={handleUpdateProduct}
+            defaultValues={{
+              name: product?.name,
+              price: Number(product?.price),
+              quantity: Number(product?.quantity),
+              description: product?.description,
+              image: product?.image,
+              category: product?.category._id,
+            }}
+          >
             <THInput label="Product Name" type="text" name="name" required />
             <THInput label="Price" type="number" name="price" required />
             <THInput label="Quantity" type="number" name="quantity" required />

@@ -1,43 +1,44 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-
-import { registerUser } from "@/actions/registerUser";
 import THForm from "@/components/form/THForm";
 import THInput from "@/components/form/THInput";
+import { useCreateUserMutation } from "@/redux/features/admin/userManagement/userManagement.api";
 import { registerSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import toast from "react-hot-toast";
 
-export default function Register() {
+export default function CreateUser() {
+  const [createUser] = useCreateUserMutation();
+  const router = useRouter();
+
   const onSubmit = async (data: FieldValues) => {
     const loadingToast = toast.loading("loading...");
     try {
-      const res = await registerUser(data);
+      const res = await createUser(data);
       if (res.error) {
         throw res.error;
       }
-
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
-
-      toast.success("Sign up successful!", { id: loadingToast });
+      toast.success("User created successfully!", { id: loadingToast });
+      router.push("/admin/user-management");
     } catch (error: any) {
-      toast.error(error?.data?.message || "Sign up failed. Please try again.", {
-        id: loadingToast,
-      });
+      toast.error(
+        error?.data?.message || "failed to create user. Please try again.",
+        {
+          id: loadingToast,
+        }
+      );
       console.log(error);
     }
   };
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg animate__animated animate__fadeIn my-20">
+    <div className="flex items-center justify-center">
+      <div className="w-full max-w-md p-8 space-y-6 bg-background-200 rounded-lg shadow-lg animate__animated animate__fadeIn my-20">
         <div>
           <h2 className="text-3xl font-bold text-center text-primary-700">
-            Register
+            Create User
           </h2>
-          <p className="text-center text-xs mt-2">Welcome to TrendHive</p>
         </div>
         <THForm onsubmit={onSubmit} resolver={zodResolver(registerSchema)}>
           <THInput label="Name" name="name" required={true} type="text" />
@@ -53,15 +54,9 @@ export default function Register() {
             type="submit"
             className="w-full py-3 text-white bg-primary-900 rounded-lg hover:bg-primary-700"
           >
-            Register
+            Create
           </button>
         </THForm>
-        <p className="text-center text-sm text-gray-500">
-          Already have an account?{" "}
-          <Link href="/login" className="text-primary-900 hover:underline">
-            Login
-          </Link>
-        </p>
       </div>
     </div>
   );

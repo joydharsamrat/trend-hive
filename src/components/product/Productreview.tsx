@@ -29,7 +29,9 @@ const ProductReview = ({ productId }: { productId: string }) => {
     const loadingToast = toast.loading("loading...");
     try {
       const res = await addReview(reviewData);
-      console.log(res);
+      if (res.error) {
+        throw res.error;
+      }
       toast.success("Login successful!", { id: loadingToast });
     } catch (error: any) {
       toast.error(error?.data?.message || "Login failed. Please try again.", {
@@ -48,7 +50,7 @@ const ProductReview = ({ productId }: { productId: string }) => {
   const reviews = data.data.data;
 
   return (
-    <div className="mt-8 max-w-6xl mx-auto">
+    <div className="mt-8 max-w-6xl mx-auto px-5">
       {user ? (
         <div>
           {user.role === "user" && (

@@ -10,6 +10,8 @@ import Loader from "../shared/Loader";
 import { useCreateProductMutation } from "@/redux/features/admin/productManagement/productManagement.api";
 import toast from "react-hot-toast";
 import { Dispatch, SetStateAction } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { productSchema } from "@/schemas";
 
 const AddProductModal = ({
   setIsOpen,
@@ -29,7 +31,10 @@ const AddProductModal = ({
     };
 
     try {
-      await createProduct(productData);
+      const res = await createProduct(productData);
+      if (res.error) {
+        throw res.error;
+      }
       setIsOpen(false);
       toast.success("create successful!", { id: loadingToast });
     } catch (error: any) {
@@ -55,7 +60,10 @@ const AddProductModal = ({
           </form>
           <h3 className="text-lg font-semibold mb-4">Add New Product</h3>
 
-          <THForm onsubmit={handleAddProduct}>
+          <THForm
+            onsubmit={handleAddProduct}
+            resolver={zodResolver(productSchema)}
+          >
             <THInput label="Product Name" type="text" name="name" required />
             <THInput label="Price" type="number" name="price" required />
             <THInput label="Quantity" type="number" name="quantity" required />

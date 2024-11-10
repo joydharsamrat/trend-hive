@@ -27,6 +27,7 @@ const THInput = ({
         {...register(name, { required: required })}
         type={type}
         id={name}
+        step={type === "number" ? "0.01" : undefined}
         className={`w-full p-2 mt-1 border rounded shadow-inner shadow-primary-700 ${
           errors[name] && "border-red-500 shadow-secondary-700"
         }`}

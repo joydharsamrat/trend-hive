@@ -7,6 +7,7 @@ import {
   useMakeAdminMutation,
 } from "@/redux/features/admin/userManagement/userManagement.api";
 import { TUserAuth } from "@/types";
+import Link from "next/link";
 import toast from "react-hot-toast";
 
 const UserManagement = () => {
@@ -18,7 +19,10 @@ const UserManagement = () => {
     const loadingToast = toast.loading("loading...");
 
     try {
-      await makeAdmin(id);
+      const res = await makeAdmin(id);
+      if (res.error) {
+        throw res.error;
+      }
       toast.success("Updating successful!", { id: loadingToast });
     } catch (error: any) {
       toast.error(
@@ -34,7 +38,10 @@ const UserManagement = () => {
     const loadingToast = toast.loading("loading...");
 
     try {
-      await deleteUser(id);
+      const res = await deleteUser(id);
+      if (res.error) {
+        throw res.error;
+      }
       toast.success("Delete successful!", { id: loadingToast });
     } catch (error: any) {
       toast.error(
@@ -55,7 +62,10 @@ const UserManagement = () => {
   return (
     <div className="w-full p-4">
       <h2 className="text-2xl font-semibold mb-4">User Management</h2>
-      <div className="overflow-x-auto">
+      <Link href="/admin/user-management/create" className="btn-primary">
+        Create User
+      </Link>
+      <div className="overflow-x-auto mt-5">
         <table className="table table-zebra w-full overflow-x-auto">
           <thead>
             <tr>

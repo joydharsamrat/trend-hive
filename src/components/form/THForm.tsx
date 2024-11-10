@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import {
   FieldValues,
   FormProvider,
@@ -11,27 +11,33 @@ import {
 
 type TFormProps = {
   children: ReactNode;
-  defaultValue?: any;
+  defaultValues?: any;
   onsubmit: SubmitHandler<FieldValues>;
   resolver?: any;
 };
 
-const THForm = ({ children, defaultValue, onsubmit, resolver }: TFormProps) => {
-  const formConfig: Record<string, unknown> = {};
+const THForm = ({
+  children,
+  defaultValues,
+  onsubmit,
+  resolver,
+}: TFormProps) => {
+  const formConfig: Record<string, unknown> = {
+    defaultValues,
+    resolver,
+  };
+  const methods = useForm(formConfig);
 
-  if (defaultValue) {
-    formConfig["defaultValue"] = defaultValue;
-  }
+  const submitHandler = methods.handleSubmit;
 
-  if (resolver) {
-    formConfig["resolver"] = resolver;
-  }
-  const method = useForm(formConfig);
-
-  const submitHandler = method.handleSubmit;
+  useEffect(() => {
+    if (defaultValues) {
+      methods.reset(defaultValues);
+    }
+  }, [defaultValues, methods]);
 
   return (
-    <FormProvider {...method}>
+    <FormProvider {...methods}>
       <form className="space-y-6" onSubmit={submitHandler(onsubmit)}>
         {children}
       </form>

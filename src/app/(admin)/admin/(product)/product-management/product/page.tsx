@@ -9,6 +9,7 @@ import { useGetAllProductsQuery } from "@/redux/features/products/products.api";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 const ProductManagement = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -33,7 +34,10 @@ const ProductManagement = () => {
     const loadingToast = toast.loading("loading...");
 
     try {
-      await deleteProduct(id);
+      const res = await deleteProduct(id);
+      if (res.error) {
+        throw res.error;
+      }
       toast.success("Delete successful!", { id: loadingToast });
     } catch (error: any) {
       toast.error(
@@ -67,7 +71,7 @@ const ProductManagement = () => {
             setIsOpen(true);
             (document?.getElementById("my_modal_3") as any)?.showModal();
           }}
-          className="btn btn-primary"
+          className=" btn-primary"
         >
           Add New Product
         </button>
@@ -100,18 +104,18 @@ const ProductManagement = () => {
                 <td>{product.category.title}</td>
                 <td>${product.price.toFixed(2)}</td>
                 <td>{product.quantity}</td>
-                <td>
+                <td className="space-x-2 min-w-20">
                   <button
                     onClick={() => handleEditProduct(product)}
-                    className="btn btn-primary btn-sm mr-2"
+                    className="text-primary-900 text-xl"
                   >
-                    Edit
+                    <FaEdit />
                   </button>
                   <button
                     onClick={() => handleDeleteProduct(product._id)}
-                    className="btn btn-danger btn-sm"
+                    className="text-secondary-900 text-xl"
                   >
-                    Delete
+                    <FaTrashAlt />
                   </button>
                 </td>
               </tr>

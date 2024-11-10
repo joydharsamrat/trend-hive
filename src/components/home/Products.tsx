@@ -47,7 +47,7 @@ const Products = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="flex flex-col lg:flex-row items-center justify-center mb-6 gap-4 bg-gradient py-5 rounded-3xl">
+      <div className="flex flex-col lg:flex-row items-center justify-center mb-6 gap-4 bg-gradient py-5 px-5 rounded md:rounded-3xl md:px-0">
         <div className="form-control w-full lg:w-1/2">
           <div className="input-group">
             <input

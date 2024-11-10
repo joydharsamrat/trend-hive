@@ -2,18 +2,25 @@
 "use client";
 
 import Loader from "@/components/shared/Loader";
+import OrderDetailsModal from "@/components/shared/order/OrderDetailsModal";
+import { useUser } from "@/context/userProvider";
 import { useGetOrdersForUserQuery } from "@/redux/features/order/order.api";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
 const Orders = () => {
-  const { data, isLoading } = useGetOrdersForUserQuery(undefined);
-
+  const { data, isLoading: isOrdersLoading } =
+    useGetOrdersForUserQuery(undefined);
+  const router = useRouter();
+  const { isLoading, user } = useUser();
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    if (!isLoading && !user) {
+      router.push("/login");
+    }
+  }, [isLoading, user, router]);
 
-  if (isLoading) {
+  if (isOrdersLoading) {
     return <Loader />;
   }
 
@@ -62,7 +69,7 @@ const Orders = () => {
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <ul className="list-disc pl-6 space-y-2">
+                    <ul className="space-y-2">
                       {order.items.map((item: any) => (
                         <li
                           key={item.product._id}
@@ -87,12 +94,22 @@ const Orders = () => {
                       ))}
                     </ul>
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex justify-between items-center">
                     <p className="text-xl font-semibold text-red-500">
                       ${order.price.toFixed(2)}
                     </p>
+                    <button
+                      onClick={() =>
+                        (document.getElementById(order._id) as any)?.showModal()
+                      }
+                      className=" btn-primary mt-4"
+                    >
+                      View Details
+                    </button>
                   </div>
                 </div>
+
+                <OrderDetailsModal order={order} />
               </div>
             ))
           )}
