@@ -96,11 +96,13 @@ const Orders = () => {
                   </div>
                   <div className="flex justify-between items-center">
                     <p className="text-xl font-semibold text-red-500">
-                      ${order.price.toFixed(2)}
+                      ${order?.price?.toFixed(2)}
                     </p>
                     <button
                       onClick={() =>
-                        (document.getElementById(order._id) as any)?.showModal()
+                        (
+                          document.getElementById(order?._id) as any
+                        )?.showModal()
                       }
                       className=" btn-primary mt-4"
                     >

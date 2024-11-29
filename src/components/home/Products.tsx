@@ -12,6 +12,10 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sort, setSort] = useState<"asc" | "desc">("asc");
   const [page, setPage] = useState(1);
+  const [allProducts, setAllProducts] = useState<TProduct[]>([]);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [isFetching, setIsFetching] = useState(false); // Manual fetching state
+
   const limit = 12;
 
   const query = {
@@ -23,7 +27,6 @@ const Products = () => {
   };
 
   const { data: categories } = useGetAllCategoriesQuery(undefined);
-
   const { data: products, isLoading } = useGetAllProductsQuery(query);
 
   // Debounce logic for searchTerm
@@ -37,13 +40,35 @@ const Products = () => {
     };
   }, [searchTerm]);
 
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
+  // Reset products when filters change
+  useEffect(() => {
+    setIsFetching(true); // Start manual fetching state
+    setPage(1);
+    setAllProducts([]);
+    setTotalProducts(0);
+  }, [selectedCategory, sort, debouncedSearchTerm]);
+
+  // Update products when new data is fetched
+  useEffect(() => {
+    if (products?.data?.products?.length) {
+      setAllProducts((prevProducts) => [
+        ...prevProducts,
+        ...products.data.products,
+      ]);
+    }
+
+    if (products?.data?.totalProducts) {
+      setTotalProducts(products?.data?.totalProducts);
+    }
+
+    setIsFetching(false); // End manual fetching state
+  }, [products]);
+
+  const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
   };
 
-  useEffect(() => {
-    setPage(1);
-  }, [selectedCategory, sort, searchTerm]);
+  const hasMore = allProducts.length < totalProducts;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -65,7 +90,7 @@ const Products = () => {
           onChange={(e) => {
             setSelectedCategory(e.target.value);
           }}
-          className="select  w-full lg:w-auto bg-white "
+          className="select w-full lg:w-auto bg-white"
         >
           <option value="">All Categories</option>
           {categories?.data?.map((category: TCategory) => (
@@ -80,14 +105,16 @@ const Products = () => {
           onChange={(e) => {
             setSort(e.target.value as "desc" | "asc");
           }}
-          className="select  w-full lg:w-auto bg-white"
+          className="select w-full lg:w-auto bg-white"
         >
           <option disabled>Sort By Price</option>
           <option value="asc">Low to High</option>
           <option value="desc">High to Low</option>
         </select>
       </div>
-      {isLoading ? (
+
+      {/* Show loading state for filters */}
+      {(isLoading || isFetching) && allProducts.length === 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {Array.from({ length: 12 }).map((_, index) => (
             <ProductCardSkeleton key={index} />
@@ -95,33 +122,23 @@ const Products = () => {
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-          {products?.data?.map((product: TProduct) => (
+          {allProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>
       )}
 
-      <div className="flex justify-center gap-2 mt-6">
-        <button
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 1}
-          className=" btn btn-sm bg-primary-900 text-white hover:bg-primary-700 disabled:bg-neutral-500 disabled:text-white border-none"
-        >
-          «
-        </button>
-
-        <button disabled className=" btn btn-sm">
-          {page}
-        </button>
-
-        <button
-          onClick={() => handlePageChange(page + 1)}
-          disabled={products?.data?.length < limit}
-          className=" btn btn-sm bg-primary-900 text-white hover:bg-primary-700 disabled:bg-neutral-500 disabled:text-white border-none"
-        >
-          »
-        </button>
-      </div>
+      {hasMore && (
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={handleLoadMore}
+            className="btn bg-primary-900 text-white hover:bg-primary-700 border-none"
+            disabled={isLoading || isFetching}
+          >
+            {isLoading || isFetching ? "Loading..." : "Load More"}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -42,7 +42,7 @@ const CartItems = () => {
     }
   }, [cartItems]);
 
-  if (cartLoading) {
+  if (cartLoading || isUpdating || isRemoving) {
     return <Loader />;
   }
 
